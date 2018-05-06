@@ -1,11 +1,15 @@
 import Vue from 'vue'
 import axios from 'axios'
+import Vuetify from 'vuetify'
+import 'vuetify/dist/vuetify.min.css'
+import 'material-design-icons-iconfont/dist/fonts/material-icons.css'
 
 import App from './App'
 import router from './router'
 import store from './store'
 
 if (!process.env.IS_WEB) Vue.use(require('vue-electron'))
+Vue.use(Vuetify)
 Vue.http = Vue.prototype.$http = axios
 Vue.config.productionTip = false
 

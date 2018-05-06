@@ -37,14 +37,18 @@
     components: { SystemInformation },
     methods: {
       open (link) {
-        this.$electron.shell.openExternal(link)
+        if (require('os').platform() === 'browser') {
+          window.open(link)
+        } else {
+          this.$electron.shell.openExternal(link)
+        }
       }
     }
   }
 </script>
 
 <style>
-  @import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro');
+  /* @import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro'); */
 
   * {
     box-sizing: border-box;
@@ -52,7 +56,7 @@
     padding: 0;
   }
 
-  body { font-family: 'Source Sans Pro', sans-serif; }
+  /* body { font-family: 'Source Sans Pro', sans-serif; }
 
   #wrapper {
     background:
@@ -61,10 +65,7 @@
         rgba(255, 255, 255, 1) 40%,
         rgba(229, 229, 229, .9) 100%
       );
-    height: 100vh;
-    padding: 60px 80px;
-    width: 100vw;
-  }
+  } */
 
   #logo {
     height: auto;
