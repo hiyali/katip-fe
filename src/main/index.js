@@ -32,10 +32,6 @@ function setMenu () {
         {role: 'reload'},
         {role: 'forcereload'},
         {type: 'separator'},
-        {role: 'resetzoom'},
-        {role: 'zoomin'},
-        {role: 'zoomout'},
-        {type: 'separator'},
         {role: 'togglefullscreen'}
       ]
     },
@@ -88,7 +84,7 @@ function createWindow () {
    * Initial window options
    */
   mainWindow = new BrowserWindow({
-    title: app.getName() + ' -1',
+    title: app.getName(),
     height: 600,
     width: 800,
     minHeight: 500,

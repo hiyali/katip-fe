@@ -7,10 +7,12 @@ import 'material-design-icons-iconfont/dist/fonts/material-icons.css'
 import App from './App'
 import router from './router'
 import store from './store'
+import configurations from './api'
 
 if (!process.env.IS_WEB) Vue.use(require('vue-electron'))
 Vue.use(Vuetify)
 Vue.http = Vue.prototype.$http = axios
+configurations(router, store)
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

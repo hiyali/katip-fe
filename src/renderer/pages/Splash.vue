@@ -5,17 +5,28 @@
 </template>
 
 <script>
+  import { mapActions } from 'vuex'
+
   export default {
     name: 'splash-page',
     created () {
-      setTimeout(() => {
+      this.checkToken().then((res) => {
+        if (res.data.id) {
+          this.$router.push({ name: 'records-page' })
+        } else {
+          this.gotoLogin()
+        }
+      }).catch((_) => {
         this.gotoLogin()
-      }, 2000)
+      })
     },
     methods: {
       gotoLogin () {
-        this.$router.push({ name: 'login-page' })
-      }
+        this.$router.replace({ name: 'login-page' })
+      },
+      ...mapActions('User', [
+        'checkToken'
+      ])
     }
   }
 </script>

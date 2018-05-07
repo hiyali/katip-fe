@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-navigation-drawer app :mini-variant.sync="mini" v-model="drawer">
-      <img id="logo" src="~@/assets/logo.png" alt="electron-vue">
+      <img class="logo" src="~@/assets/logo.png" alt="electron-vue">
       <v-list dense>
         <v-divider></v-divider>
         <v-list-tile v-for="item in items" :key="item.title" @click="">
@@ -29,13 +29,13 @@
               <img src="https://randomuser.me/api/portraits/men/85.jpg" >
             </v-list-tile-avatar>
             <v-list-tile-content>
-              <v-list-tile-title>Salam Hiyali</v-list-tile-title>
+              <v-list-tile-title>{{ userInfo.name }}</v-list-tile-title>
             </v-list-tile-content>
             <v-icon>arrow_drop_down</v-icon>
           </v-list-tile>
           
           <v-list>
-            <v-list-tile>hiyali920@gmail.com</v-list-tile>
+            <v-list-tile>{{ userInfo.email }}</v-list-tile>
             <v-divider></v-divider>
             <v-list-tile @click.stop="logoutDialog = !logoutDialog">
               <v-list-tile-action>
@@ -59,7 +59,7 @@
         </v-card-title>
         <v-card-actions>
           <v-layout justify-center>
-          <v-btn color="primary" @click.native="logout()">Sure</v-btn>
+          <v-btn color="primary" @click.native="doLogout()">Sure</v-btn>
           <v-btn color="primary" @click.native="logoutDialog = false" flat>Cancel</v-btn>
           </v-layout>
         </v-card-actions>
@@ -69,8 +69,10 @@
 </template>
 
 <script>
+  import { mapGetters, mapActions } from 'vuex'
+
   export default {
-    name: 'splash-page',
+    name: 'user-layout',
     data () {
       return {
         drawer: false,
@@ -83,22 +85,50 @@
         searchKey: ''
       }
     },
+    computed: {
+      ...mapGetters('User', [
+        'userInfo',
+        'isLogin'
+      ])
+    },
+    mounted () {
+      if (!this.isLogin) {
+        this.checkToken().then((res) => {
+          if (res.data.id) {
+            this.$router.push({ name: 'records-page' })
+          } else {
+            this.gotoLogin()
+          }
+        }).catch((_) => {
+          this.gotoLogin()
+        })
+      }
+    },
     methods: {
       toggleNavigation () {
         this.drawer = !this.drawer
       },
-      logout () {
+      doLogout () {
+        this.logout().then(() => {
+          this.gotoLogin()
+        })
+      },
+      gotoLogin () {
         this.$router.replace({ name: 'login-page' })
       },
       search () {
         console.log('searching...')
-      }
+      },
+      ...mapActions('User', [
+        'checkToken',
+        'logout'
+      ])
     }
   }
 </script>
 
 <style>
-  #logo {
+  .logo {
     height: auto;
     margin: 20px;
     width: calc(100% - 40px);
