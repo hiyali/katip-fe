@@ -1,8 +1,7 @@
 import Vue from 'vue'
 
 const state = {
-  userInfo: undefined,
-  isLogin: false
+  userInfo: undefined
 }
 
 const getters = {
@@ -29,6 +28,11 @@ const actions = {
     return Vue.http.post('/auth/login', body).then((res) => {
       commit('SET_USER_DATA', res.data.userInfo)
       commit('SET_TOKEN', res.data.token)
+      return res.data
+    })
+  },
+  register ({ commit }, body) {
+    return Vue.http.post('/register', body).then((res) => {
       return res.data
     })
   },

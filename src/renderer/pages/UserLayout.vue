@@ -2,9 +2,10 @@
   <div>
     <v-navigation-drawer app :mini-variant.sync="mini" v-model="drawer">
       <img class="logo" src="~@/assets/logo.png" alt="electron-vue">
-      <v-list dense>
+      <v-list subheader dense>
         <v-divider></v-divider>
-        <v-list-tile v-for="item in items" :key="item.title" @click="">
+        
+        <v-list-tile v-for="item in types" :key="item.title" @click="filterByType(item.type)">
           <v-list-tile-action>
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-tile-action>
@@ -12,6 +13,7 @@
             <v-list-tile-title>{{ item.title }}</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
+        
       </v-list>
     </v-navigation-drawer>
     
@@ -63,24 +65,21 @@
           <v-btn color="primary" @click.native="logoutDialog = false" flat>Cancel</v-btn>
           </v-layout>
         </v-card-actions>
-    </v-card>
+      </v-card>
     </v-dialog>
   </div>
 </template>
 
 <script>
   import { mapGetters, mapActions } from 'vuex'
+  import { Debounce } from '@/lib'
 
   export default {
     name: 'user-layout',
     data () {
       return {
-        drawer: false,
+        drawer: true,
         mini: false,
-        items: [
-          { title: 'Home', icon: 'dashboard' },
-          { title: 'About', icon: 'question_answer' }
-        ],
         logoutDialog: false,
         searchKey: ''
       }
@@ -89,13 +88,22 @@
       ...mapGetters('User', [
         'userInfo',
         'isLogin'
+      ]),
+      ...mapGetters('Record', [
+        'records',
+        'types'
       ])
+    },
+    watch: {
+      searchKey (newVal) {
+        this.debounceSearch(newVal)
+      }
     },
     mounted () {
       if (!this.isLogin) {
         this.checkToken().then((res) => {
           if (res.data.id) {
-            this.$router.push({ name: 'records-page' })
+            this.$router.push({ name: 'record-page' })
           } else {
             this.gotoLogin()
           }
@@ -103,6 +111,8 @@
           this.gotoLogin()
         })
       }
+
+      this.debounceSearch = Debounce(this.searchByTitle, 500)
     },
     methods: {
       toggleNavigation () {
@@ -122,6 +132,10 @@
       ...mapActions('User', [
         'checkToken',
         'logout'
+      ]),
+      ...mapActions('Record', [
+        'filterByType',
+        'searchByTitle'
       ])
     }
   }

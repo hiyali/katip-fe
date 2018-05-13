@@ -1,15 +1,17 @@
 import RootLayout from './RootLayout'
 import UserLayout from './UserLayout'
 
+import RegisterPage from './Register'
 import SplashPage from './Splash'
-import RecordsPage from './Records'
+import RecordPage from './Record'
 import AboutPage from './About'
 
 export {
   RootLayout,
   UserLayout,
 
+  RegisterPage,
   SplashPage,
-  RecordsPage,
+  RecordPage,
   AboutPage
 }

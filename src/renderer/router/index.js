@@ -22,13 +22,18 @@ export default new Router({
           component: require('@/pages/Login').default
         },
         {
+          path: 'register',
+          name: 'register-page',
+          component: require('@/pages/Register').default
+        },
+        {
           path: 'user',
           component: require('@/pages/UserLayout').default,
           children: [
             {
-              path: 'records',
-              name: 'records-page',
-              component: require('@/pages/Records').default
+              path: 'record',
+              name: 'record-page',
+              component: require('@/pages/Record').default
             }
           ]
         },
