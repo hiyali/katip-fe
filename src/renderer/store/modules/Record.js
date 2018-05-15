@@ -1,33 +1,11 @@
 import Vue from 'vue'
 
 const state = {
-  records: {
+  record: {
     loaded: false,
     skip: 0,
     limit: 20,
     list: undefined
-    /* Simple mock for test
-    [
-      {
-        id: 1,
-        title: 'salam',
-        type: 'TEXT',
-        content: 'text-haaha'
-      },
-      {
-        id: 2,
-        title: 'asdfadsf',
-        type: 'PASSWORD',
-        content: 'non-secure'
-      },
-      {
-        id: 3,
-        title: 'password',
-        type: 'PASSWORD',
-        content: 'non-213123'
-      }
-    ]
-    */
   },
   types: [
     {
@@ -46,83 +24,108 @@ const state = {
       icon: 'vpn_key'
     }
   ],
-  selectedType: null,
-  searchTitle: ''
+  filterType: null,
+  filterTitle: ''
 }
 
 const getters = {
-  records: state => {
-    let filteredRecords
-    if (state.records.list && state.records.list.length > 0) {
-      if (state.selectedType) {
-        filteredRecords = {
-          ...state.records,
+  record: state => {
+    let filteredList
+    if (state.record.list && state.record.list.length > 0) {
+      if (state.filterType) {
+        filteredList = {
+          ...state.record,
           ...{
-            list: state.records.list.filter(record => record.type === state.selectedType)
+            list: state.record.list.filter(record => record.type === state.filterType)
           }
         }
       }
-      if (state.searchTitle) {
-        filteredRecords = {
-          ...state.records,
+      if (state.filterTitle) {
+        filteredList = {
+          ...state.record,
           ...{
-            list: (filteredRecords || state.records).list.filter(record => record.title.indexOf(state.searchTitle) > -1)
+            list: (filteredList || state.record).list.filter(record => record.title.indexOf(state.filterTitle) > -1)
           }
         }
       }
-      if (filteredRecords) {
-        return filteredRecords
+      if (filteredList) {
+        return filteredList
       }
     }
 
-    return state.records
+    return state.record
   },
   types: state => state.types
 }
 
 const mutations = {
-  SET_RECORDS_LIST (state, data) {
-    state.records = {
-      ...state.records,
+  SET_RECORD_LIST (state, data) {
+    state.record = {
+      ...state.record,
       ...{
-        loaded: data.length < state.records.limit,
+        loaded: data.length < state.record.limit,
         skip: 0,
         list: data
       }
     }
   },
-  CONCAT_RECORDS_LIST (state, data) {
-    state.records.list.push(data)
-    state.records.loaded = data.length < state.records.limit
-    state.records.skip = state.records.skip + state.records.limit
+  CONCAT_RECORD_LIST (state, data) {
+    state.record.list.push(data)
+    state.record.loaded = data.length < state.record.limit
+    state.record.skip = state.record.skip + state.record.limit
   },
-  SET_SELECTED_TYPE (state, type) {
-    if (state.selectedType !== type) {
-      state.selectedType = type
+  SET_FILTER_TYPE (state, type) {
+    if (state.filterType !== type) {
+      state.filterType = type
     } else {
-      state.selectedType = null
+      state.filterType = null
     }
   },
-  SET_SEARCH_TITLE (state, searchTitle) {
-    state.searchTitle = searchTitle
+  SET_FILTER_TITLE (state, title) {
+    state.filterTitle = title
+  },
+  UPDTE_RECORD_ITEM (state, data) {
+    const itemIndex = state.record.list.findIndex(item => item.id === data.id)
+    state.record.list.splice(itemIndex, 1, data)
   }
 }
 
 const actions = {
-  getRecordsList ({ state, commit }, params) {
-    Vue.http.get('/records', params = { skip: state.records.skip, limit: state.records.limit }).then((res) => {
+  getRecordList ({ state, commit }, params = { skip: state.record.skip, limit: state.record.limit }) {
+    return Vue.http.get('/record', { params }).then((res) => {
       if (params.skip > 0) {
-        commit('CONCAT_RECORDS_LIST', res.data)
+        commit('CONCAT_RECORD_LIST', res.data)
       } else {
-        commit('SET_RECORDS_LIST', res.data)
+        commit('SET_RECORD_LIST', res.data)
       }
+      return res.data
     })
   },
   filterByType ({ commit }, type) {
-    commit('SET_SELECTED_TYPE', type)
+    commit('SET_FILTER_TYPE', type)
   },
-  searchByTitle ({ commit }, title) {
-    commit('SET_SEARCH_TITLE', title)
+  filterByTitle ({ commit }, title) {
+    commit('SET_FILTER_TITLE', title)
+  },
+  getRecordById ({ state }, filterId) {
+    if (!state.record.list) {
+      return undefined
+    }
+    return state.record.list.find(item => item.id === filterId)
+  },
+  createRecord ({ commit }, record) {
+    return Vue.http.post('/record', record).then((res) => {
+      commit('CONCAT_RECORD_LIST', res.data)
+      return res.data
+    })
+  },
+  updateRecord ({ dispatch }, record) {
+    return Vue.http.put('/record/' + record.id, record).then((res) => {
+      // commit('UPDATE_RECORD_ITEM', res.data) // TODO: SERVER must return updated record item
+      // return res.data
+      dispatch('getRecordList')
+      return record
+    })
   }
 }
 

@@ -1,19 +1,37 @@
 <template>
-  <div>
+  <v-container>
     <v-navigation-drawer app :mini-variant.sync="mini" v-model="drawer">
-      <img class="logo" src="~@/assets/logo.png" alt="electron-vue">
       <v-list subheader dense>
+        <img v-show="!mini" class="logo" src="~@/assets/images/logo.png" alt="electron-vue">
+  
         <v-divider></v-divider>
-        
-        <v-list-tile v-for="item in types" :key="item.title" @click="filterByType(item.type)">
+        <v-list-tile @click="gotoPage({ name: 'record-list-page' })">
           <v-list-tile-action>
-            <v-icon>{{ item.icon }}</v-icon>
+            <v-icon>list</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
-            <v-list-tile-title>{{ item.title }}</v-list-tile-title>
+            <v-list-tile-title>Record list</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
-        
+  
+        <v-divider></v-divider>
+        <v-subheader>Other</v-subheader>
+        <v-list-tile @click="mini = !mini">
+          <v-list-tile-action>
+            <v-icon>{{ mini ? 'more_horiz' : 'more_vert' }}</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>Mini mode</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+        <v-list-tile @click="gotoPage({ name: 'about-page' })">
+          <v-list-tile-action>
+            <v-icon>contacts</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>About</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
       </v-list>
     </v-navigation-drawer>
     
@@ -22,9 +40,7 @@
       <v-toolbar-title>Katip</v-toolbar-title>
       <v-spacer></v-spacer>
       
-      <v-toolbar-items class="hidden-sm-and-down">
-        <v-text-field v-model="searchKey" prepend-icon="search" type="text" name="search-input" min="2" placeholder="Search" :solo="true" flat></v-text-field>
-        
+      <v-toolbar-items>
         <v-menu offset-y>
           <v-list-tile class="py-2" slot="activator">
             <v-list-tile-avatar>
@@ -67,43 +83,33 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-  </div>
+  </v-container>
 </template>
 
 <script>
   import { mapGetters, mapActions } from 'vuex'
-  import { Debounce } from '@/lib'
 
   export default {
     name: 'user-layout',
     data () {
       return {
-        drawer: true,
+        drawer: false,
         mini: false,
         logoutDialog: false,
-        searchKey: ''
+        filterKey: ''
       }
     },
     computed: {
       ...mapGetters('User', [
         'userInfo',
         'isLogin'
-      ]),
-      ...mapGetters('Record', [
-        'records',
-        'types'
       ])
-    },
-    watch: {
-      searchKey (newVal) {
-        this.debounceSearch(newVal)
-      }
     },
     mounted () {
       if (!this.isLogin) {
         this.checkToken().then((res) => {
           if (res.data.id) {
-            this.$router.push({ name: 'record-page' })
+            this.$router.push({ name: 'record-list-page' })
           } else {
             this.gotoLogin()
           }
@@ -111,8 +117,6 @@
           this.gotoLogin()
         })
       }
-
-      this.debounceSearch = Debounce(this.searchByTitle, 500)
     },
     methods: {
       toggleNavigation () {
@@ -124,18 +128,14 @@
         })
       },
       gotoLogin () {
-        this.$router.replace({ name: 'login-page' })
+        this.gotoPage({ name: 'login-page' })
       },
-      search () {
-        console.log('searching...')
+      gotoPage (routeObj) {
+        this.$router.push(routeObj)
       },
       ...mapActions('User', [
         'checkToken',
         'logout'
-      ]),
-      ...mapActions('Record', [
-        'filterByType',
-        'searchByTitle'
       ])
     }
   }

@@ -1,17 +1,23 @@
-import RootLayout from './RootLayout'
-import UserLayout from './UserLayout'
+import RootLayout from './layout/Root'
+import UserLayout from './layout/User'
 
-import RegisterPage from './Register'
-import SplashPage from './Splash'
-import RecordPage from './Record'
-import AboutPage from './About'
+import RecordListPage from './Record/List'
+import RecordEditPage from './Record/Edit'
+
+import RegisterPage from './common/Register'
+import LoginPage from './common/Login'
+import SplashPage from './common/Splash'
+import AboutPage from './common/About'
 
 export {
   RootLayout,
   UserLayout,
 
+  RecordListPage,
+  RecordEditPage,
+
   RegisterPage,
+  LoginPage,
   SplashPage,
-  RecordPage,
   AboutPage
 }

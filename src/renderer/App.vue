@@ -8,7 +8,7 @@
   export default {
     name: 'app',
     mounted () {
-      this.setSubTitle('home')
+      // this.setSubTitle('home')
     },
     methods: {
       setSubTitle (subTitle = '') {

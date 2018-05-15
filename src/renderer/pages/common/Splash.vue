@@ -12,7 +12,7 @@
     created () {
       this.checkToken().then((res) => {
         if (res.data.id) {
-          this.$router.push({ name: 'record-page' })
+          this.$router.push({ name: 'record-list-page' })
         } else {
           this.gotoLogin()
         }

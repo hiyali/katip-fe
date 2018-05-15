@@ -7,12 +7,6 @@
             <v-toolbar-title>Login</v-toolbar-title>
           </v-toolbar>
           <v-card-text>
-  
-            <v-snackbar :timeout="5000" color="error" :vertical="true" v-model="snackbar">
-              Please input right informations.
-              <v-btn dark flat @click.native="snackbar = false">Close</v-btn>
-            </v-snackbar>
-            
             <v-form>
               <v-text-field v-model="email" prepend-icon="email" name="email" label="Email" type="email" :rules="[rules.required, rules.email]" required></v-text-field>
               <v-text-field v-model="password" prepend-icon="lock" name="password" label="Password" type="password" :rules="[rules.required, rules.password]" min="6" required></v-text-field>
@@ -26,6 +20,11 @@
         </v-card>
       </v-flex>
     </v-layout>
+    
+    <v-snackbar :timeout="5000" color="error" :vertical="true" v-model="snackbar">
+      Please input right informations.
+      <v-btn dark flat @click.native="snackbar = false">Close</v-btn>
+    </v-snackbar>
   </v-container>
 </template>
 
@@ -59,7 +58,7 @@
           return
         }
         this.login({ email, password }).then(() => {
-          this.$router.replace({ name: 'record-page' })
+          this.$router.replace({ name: 'record-list-page' })
         }).catch((err) => {
           console.error(err)
         })

@@ -5,6 +5,7 @@ import 'vuetify/dist/vuetify.min.css'
 import 'material-design-icons-iconfont/dist/fonts/material-icons.css'
 
 import App from './App'
+import '@/assets/style/main.css'
 import router from './router'
 import store from './store'
 import configurations from './api'
