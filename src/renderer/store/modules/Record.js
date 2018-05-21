@@ -91,9 +91,14 @@ const mutations = {
 }
 
 const actions = {
-  getRecordList ({ state, commit }, params = { skip: state.record.skip, limit: state.record.limit }) {
-    return Vue.http.get('/record', { params }).then((res) => {
-      if (params.skip > 0) {
+  getRecordList ({ state, commit }, { skip, limit, refresh } = {}) {
+    return Vue.http.get('/record', {
+      params: {
+        skip: skip || state.record.skip,
+        limit: limit || state.record.limit
+      }
+    }).then((res) => {
+      if (skip > 0 && !refresh) {
         commit('CONCAT_RECORD_LIST', res.data)
       } else {
         commit('SET_RECORD_LIST', res.data)
@@ -123,7 +128,7 @@ const actions = {
     return Vue.http.put('/record/' + record.id, record).then((res) => {
       // commit('UPDATE_RECORD_ITEM', res.data) // TODO: SERVER must return updated record item
       // return res.data
-      dispatch('getRecordList')
+      dispatch('getRecordList', { refresh: true })
       return record
     })
   }

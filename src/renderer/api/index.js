@@ -2,7 +2,7 @@ import Vue from 'vue'
 
 export default function (router, store) {
   Vue.http.defaults.timeout = 15 * 1000
-  Vue.http.defaults.baseURL = 'http://192.168.1.102:5555/'
+  Vue.http.defaults.baseURL = 'https://katip.hiyali.org/api' // 'http://192.168.1.102:5555/'
   Vue.http.defaults.headers.post['Content-Type'] = 'application/json' // 'application/x-www-form-urlencoded'
 
   Vue.http.interceptors.request.use(function (config) {

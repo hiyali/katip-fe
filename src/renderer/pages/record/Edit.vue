@@ -4,8 +4,8 @@
       <v-flex xs7>
         <v-text-field v-model="title" name="title" label="Title" :rules="[rules.required]" required single-line prepend-icon="text_fields"></v-text-field>
       </v-flex>
-      <v-flex xs5>
-        <v-text-field v-model="iconUrl" name="iconUrl" label="Icon url" :rules="[rules.optional, rules.webImage]" single-line prepend-icon="link"></v-text-field>
+      <v-flex xs5 class="pl-4">
+        <v-text-field v-model="iconUrl" name="iconUrl" label="Icon url" :rules="[rules.webImage]" single-line prepend-icon="link"></v-text-field>
       </v-flex>
     </v-layout>
     
@@ -16,7 +16,7 @@
           :append-icon="visible ? 'visibility_off' : 'visibility'" :append-icon-cb="() => (visible = !visible)" :type="visible ? 'text' : 'password'">
         </v-text-field>
       </v-flex>
-      <v-flex xs5>
+      <v-flex xs5 class="pl-4">
         <v-select v-model="typeObj" :items="selectTypes" label="Type" prepend-icon="filter_vintage"></v-select>
       </v-flex>
     </v-layout>
@@ -62,9 +62,8 @@
 
         rules: {
           required: (value) => !!value || 'Required.',
-          optional: (value) => !value || true,
           webImage: (value) => {
-            return Validation.webImage(value) || 'Invalid file url.'
+            return !value || Validation.webImage(value) || 'Invalid file url.'
           }
         },
         title: '',
@@ -116,6 +115,11 @@
     methods: {
       save () {
         const { title, iconUrl, content, typeObj } = this
+
+        if (!title || (iconUrl && !Validation.webImage(iconUrl)) || !typeObj.type) {
+          this.snackbar = true
+          return
+        }
 
         let postData = {
           title,

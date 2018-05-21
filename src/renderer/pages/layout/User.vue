@@ -40,32 +40,30 @@
       <v-toolbar-title>Katip</v-toolbar-title>
       <v-spacer></v-spacer>
       
-      <v-toolbar-items>
-        <v-menu offset-y>
-          <v-list-tile class="py-2" slot="activator">
-            <v-list-tile-avatar>
-              <img src="https://randomuser.me/api/portraits/men/85.jpg" >
-            </v-list-tile-avatar>
+      <v-menu offset-y>
+        <v-list-tile slot="activator">
+          <v-list-tile-avatar>
+            <img src="https://randomuser.me/api/portraits/men/85.jpg" >
+          </v-list-tile-avatar>
+          <v-list-tile-content>
+            <v-list-tile-title>{{ userInfo.name }}</v-list-tile-title>
+          </v-list-tile-content>
+          <v-icon>arrow_drop_down</v-icon>
+        </v-list-tile>
+        
+        <v-list>
+          <v-list-tile>{{ userInfo.email }}</v-list-tile>
+          <v-divider></v-divider>
+          <v-list-tile @click.stop="logoutDialog = !logoutDialog">
+            <v-list-tile-action>
+              <v-icon color="red">power_settings_new</v-icon>
+            </v-list-tile-action>
             <v-list-tile-content>
-              <v-list-tile-title>{{ userInfo.name }}</v-list-tile-title>
+              <v-list-tile-title>Logout</v-list-tile-title>
             </v-list-tile-content>
-            <v-icon>arrow_drop_down</v-icon>
           </v-list-tile>
-          
-          <v-list>
-            <v-list-tile>{{ userInfo.email }}</v-list-tile>
-            <v-divider></v-divider>
-            <v-list-tile @click.stop="logoutDialog = !logoutDialog">
-              <v-list-tile-action>
-                <v-icon color="red">power_settings_new</v-icon>
-              </v-list-tile-action>
-              <v-list-tile-content>
-                <v-list-tile-title>Logout</v-list-tile-title>
-              </v-list-tile-content>
-            </v-list-tile>
-          </v-list>
-        </v-menu>
-      </v-toolbar-items>
+        </v-list>
+      </v-menu>
     </v-toolbar>
 
     <router-view></router-view>

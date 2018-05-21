@@ -32,12 +32,12 @@
           <v-list-tile-sub-title>{{ getContent(item) }}</v-list-tile-sub-title>
         </v-list-tile-content>
   
-        <v-list-tile-action v-if="item.type === 'PASSWORD'" @click="toggleVisible(item, $event)">
+        <v-list-tile-action v-if="item.type === 'PASSWORD'" @click="toggleVisible(item, $event)" title="Show">
           <v-btn icon ripple>
             <v-icon color="lighten-1">{{ visibleId == item.id ? 'visibility_off' : 'visibility' }}</v-icon>
           </v-btn>
         </v-list-tile-action>
-        <v-list-tile-action @click="copy(item, $event)">
+        <v-list-tile-action @click="copy(item, $event)" title="Copy">
           <v-btn icon ripple>
             <v-icon color="lighten-1">filter_none</v-icon>
           </v-btn>
@@ -45,7 +45,7 @@
       </v-list-tile>
     </v-list>
   
-    <v-snackbar :timeout="3000" color="info" :vertical="true" v-model="snackbar">
+    <v-snackbar :timeout="2000" color="info" :vertical="true" v-model="snackbar">
       Copied!
       <v-btn dark flat @click.native="snackbar = false">Close</v-btn>
     </v-snackbar>

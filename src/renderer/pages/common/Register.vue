@@ -10,7 +10,9 @@
             <v-form>
               <v-text-field v-model="name" prepend-icon="account_box" name="name" label="Name" type="text" :rules="[rules.required]" required></v-text-field>
               <v-text-field v-model="email" prepend-icon="email" name="email" label="Email" type="email" :rules="[rules.required, rules.email]" required></v-text-field>
-              <v-text-field v-model="password" prepend-icon="lock" name="password" label="Password" type="password" :rules="[rules.required, rules.password]" min="6" required></v-text-field>
+              <v-text-field v-model="password" prepend-icon="lock" name="password" label="Password" type="password" :rules="[rules.required, rules.password]" min="6" required
+                @keyup.enter="doRegister()">
+              </v-text-field>
             </v-form>
           </v-card-text>
           <v-card-actions>

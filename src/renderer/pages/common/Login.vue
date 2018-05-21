@@ -9,7 +9,9 @@
           <v-card-text>
             <v-form>
               <v-text-field v-model="email" prepend-icon="email" name="email" label="Email" type="email" :rules="[rules.required, rules.email]" required></v-text-field>
-              <v-text-field v-model="password" prepend-icon="lock" name="password" label="Password" type="password" :rules="[rules.required, rules.password]" min="6" required></v-text-field>
+              <v-text-field v-model="password" prepend-icon="lock" name="password" label="Password" type="password" :rules="[rules.required, rules.password]" min="6" required
+                @keyup.enter="doLogin()">
+              </v-text-field>
             </v-form>
           </v-card-text>
           <v-card-actions>
