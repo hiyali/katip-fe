@@ -22,7 +22,7 @@
     </v-layout>
   
     <v-layout justify-center>
-      <v-btn color="primary" @click="save()" :disabled="isLoading || !editingChanged">Save</v-btn>
+      <v-btn color="primary" @click="save()" :disabled="isLoading || isPristine">Save</v-btn>
       <v-btn @click="gotoPage({ name: 'record-list-page' })">Cancel</v-btn>
     </v-layout>
     
@@ -57,7 +57,8 @@
       return {
         isEditPage: false,
         isLoading: false,
-        editingChanged: false,
+        isPristine: true,
+        getDataFinished: false,
 
         snackbar: false,
         visible: false,
@@ -94,17 +95,17 @@
     },
     watch: {
       title () {
-        this.editingChanged = true
+        this.brokePristine()
       },
       iconUrl () {
-        this.editingChanged = true
+        this.brokePristine()
       },
       content () {
-        this.editingChanged = true
+        this.brokePristine()
       },
       typeObj (newVal, oldVal) {
         if (oldVal !== null && newVal.text !== oldVal.text) {
-          this.editingChanged = true
+          this.brokePristine()
         }
       }
     },
@@ -115,7 +116,6 @@
         this.isEditPage = true
         this.getRecordById(id).then(item => {
           if (!item) {
-            this.editingChanged = false
             this.$router.back()
             return
           }
@@ -124,12 +124,20 @@
           this.iconUrl = item.icon_url
           this.content = item.content
           this.typeObj = this.selectTypes.find(typeObj => typeObj.type === item.type)
+        }).then(() => {
+          this.getDataFinished = true
         })
       } else {
         this.typeObj = this.selectTypes[0]
+        this.getDataFinished = true
       }
     },
     methods: {
+      brokePristine () {
+        if (this.getDataFinished) {
+          this.isPristine = false
+        }
+      },
       save () {
         const { title, iconUrl, content, typeObj } = this
 
@@ -155,7 +163,7 @@
 
         this.isLoading = true
         doFunc(postData).then(res => {
-          this.editingChanged = false
+          this.isPristine = true
           this.gotoPage({ name: 'record-list-page' })
         }).catch(_ => {
           this.isLoading = false
@@ -171,11 +179,11 @@
       ])
     },
     beforeRouteLeave (to, from, next) {
-      if (this.editingChanged) {
+      if (this.isPristine) {
+        next()
+      } else {
         this.cancelEditDialog = true
         this.leaveFunc = next
-      } else {
-        next()
       }
     }
   }
