@@ -5,19 +5,11 @@
 #### Build Setup
 
 ``` bash
-# install dependencies
-npm install
-
-# serve with hot reload at localhost:9080
-npm run dev
-
-# build electron application for production
-npm run build
-
-
-# lint all JS/Vue component files in `src/`
+yarn # install
+yarn run dev # electron
+npm run build # electron
+npm run build:web # web
 npm run lint
-
 ```
 
 ---
