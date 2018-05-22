@@ -26,7 +26,7 @@
       <v-btn @click="gotoPage({ name: 'record-list-page' })">Cancel</v-btn>
     </v-layout>
     
-    <v-snackbar :timeout="5000" color="error" :vertical="true" v-model="snackbar">
+    <v-snackbar :timeout="5000" color="error" v-model="snackbar">
       Please input right informations!
       <v-btn dark flat @click.native="snackbar = false">Close</v-btn>
     </v-snackbar>

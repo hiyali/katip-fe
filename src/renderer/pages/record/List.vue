@@ -45,7 +45,7 @@
       </v-list-tile>
     </v-list>
   
-    <v-snackbar :timeout="2000" color="info" :vertical="true" v-model="snackbar">
+    <v-snackbar :timeout="2000" color="info" v-model="snackbar">
       Copied!
       <v-btn dark flat @click.native="snackbar = false">Close</v-btn>
     </v-snackbar>

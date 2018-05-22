@@ -16,14 +16,14 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="primary" @click="doLogin()">Login</v-btn>
+            <v-btn color="primary" @click="doLogin()" :disabled="isLoading">Login</v-btn>
             <v-btn flat @click="gotoRegister()">Register</v-btn>
           </v-card-actions>
         </v-card>
       </v-flex>
     </v-layout>
     
-    <v-snackbar :timeout="5000" color="error" :vertical="true" v-model="snackbar">
+    <v-snackbar :timeout="5000" color="error" v-model="snackbar">
       Please input right informations.
       <v-btn dark flat @click.native="snackbar = false">Close</v-btn>
     </v-snackbar>
@@ -38,7 +38,9 @@
     name: 'login-page',
     data () {
       return {
+        isLoading: false,
         snackbar: false,
+
         rules: {
           required: (value) => !!value || 'Required.',
           email: (value) => {
@@ -59,10 +61,12 @@
           this.snackbar = true
           return
         }
+
+        this.isLoading = true
         this.login({ email, password }).then(() => {
           this.$router.replace({ name: 'record-list-page' })
-        }).catch((err) => {
-          console.error(err)
+        }).catch(_ => {
+          this.isLoading = false
         })
       },
       gotoRegister () {

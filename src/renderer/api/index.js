@@ -1,4 +1,12 @@
 import Vue from 'vue'
+import Store from '@/store'
+
+const showError = (res) => {
+  const { data } = res
+  if (typeof data.message === 'string' && data.message.length > 0) {
+    Store.commit('App/SET_ERROR_MESSAGE', data.message)
+  }
+}
 
 export default function (router, store) {
   Vue.http.defaults.timeout = 15 * 1000
@@ -17,20 +25,23 @@ export default function (router, store) {
   }, function (error) {
     const res = error.response
     switch (res.status) {
+      case 400:
+        showError(res.data)
+        return
       case 401:
-        router.replace({name: 'login-page', query: { redirectName: router.currentRoute.name, redirectParam: router.currentRoute.params }})
+        if (router.currentRoute.name !== 'login-page') {
+          router.replace({name: 'login-page', query: { redirectName: router.currentRoute.name, redirectParam: router.currentRoute.params }})
+        }
+        showError(res)
         break
       case 404:
-        // 不知道有没有报 404 但不需要跳转的页面
         router.replace({ name: '404' })
-        console.log(404, '此内容不存在', res.url)
         break
       case 500:
         if (error.url.indexOf('NoHandleErr') > 0) {
           break
         }
-        const errorData = res.body
-        console.error(errorData)
+        showError(res)
         break
       default:
         break

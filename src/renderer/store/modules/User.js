@@ -6,11 +6,11 @@ const state = {
 
 const getters = {
   isLogin: state => state.userInfo && state.userInfo.id > 0,
-  userInfo: state => state.userInfo ? state.userInfo : {}
+  userInfo: state => state.userInfo
 }
 
 const mutations = {
-  SET_USER_DATA (state, data = null) {
+  SET_USER_INFO (state, data = null) {
     state.userInfo = data
   },
   SET_TOKEN (_, token) {
@@ -26,7 +26,7 @@ const mutations = {
 const actions = {
   login ({ commit }, body) {
     return Vue.http.post('/auth/login', body).then((res) => {
-      commit('SET_USER_DATA', res.data.userInfo)
+      commit('SET_USER_INFO', res.data.userInfo)
       commit('SET_TOKEN', res.data.token)
       return res.data
     })
@@ -43,15 +43,16 @@ const actions = {
       Promise.reject(error)
     }
     commit('SET_TOKEN', token)
-    return dispatch('getUserData')
+    return dispatch('getUserInfo')
   },
   async logout ({ commit }) {
     await commit('CLEAR_TOKEN')
+    await commit('SET_USER_INFO')
     return Promise.resolve()
   },
-  getUserData ({ commit }, params) {
+  getUserInfo ({ commit }, params) {
     return Vue.http.get('/user', params).then((res) => {
-      commit('SET_USER_DATA', res.data)
+      commit('SET_USER_INFO', res.data)
       return res
     })
   }
