@@ -26,7 +26,7 @@ export default function (router, store) {
     const res = error.response
     switch (res.status) {
       case 400:
-        showError(res.data)
+        showError(res)
         return
       case 401:
         if (router.currentRoute.name !== 'login-page') {

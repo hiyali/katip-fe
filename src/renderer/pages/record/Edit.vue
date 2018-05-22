@@ -22,7 +22,7 @@
     </v-layout>
   
     <v-layout justify-center>
-      <v-btn color="primary" @click="save()">Save</v-btn>
+      <v-btn color="primary" @click="save()" :disabled="isLoading || !editingChanged">Save</v-btn>
       <v-btn @click="gotoPage({ name: 'record-list-page' })">Cancel</v-btn>
     </v-layout>
     
@@ -50,12 +50,14 @@
 <script>
   import { mapGetters, mapActions } from 'vuex'
   import { Validation } from '@/lib'
-  
+
   export default {
     name: 'record-edit-page',
     data () {
       return {
         isEditPage: false,
+        isLoading: false,
+        editingChanged: false,
 
         snackbar: false,
         visible: false,
@@ -71,7 +73,6 @@
         content: '',
         typeObj: null,
 
-        tipBeforeLeave: true,
         cancelEditDialog: false,
         leaveFunc: () => {}
       }
@@ -91,6 +92,22 @@
         'types'
       ])
     },
+    watch: {
+      title () {
+        this.editingChanged = true
+      },
+      iconUrl () {
+        this.editingChanged = true
+      },
+      content () {
+        this.editingChanged = true
+      },
+      typeObj (newVal, oldVal) {
+        if (oldVal !== null && newVal.text !== oldVal.text) {
+          this.editingChanged = true
+        }
+      }
+    },
     mounted () {
       const id = this.$route.params.id
 
@@ -98,7 +115,7 @@
         this.isEditPage = true
         this.getRecordById(id).then(item => {
           if (!item) {
-            this.tipBeforeLeave = false
+            this.editingChanged = false
             this.$router.back()
             return
           }
@@ -136,11 +153,12 @@
           doFunc = this.createRecord
         }
 
+        this.isLoading = true
         doFunc(postData).then(res => {
-          this.tipBeforeLeave = false
+          this.editingChanged = false
           this.gotoPage({ name: 'record-list-page' })
-        }).catch(err => {
-          console.error(err)
+        }).catch(_ => {
+          this.isLoading = false
         })
       },
       gotoPage (routeObj) {
@@ -153,7 +171,7 @@
       ])
     },
     beforeRouteLeave (to, from, next) {
-      if (this.tipBeforeLeave) {
+      if (this.editingChanged) {
         this.cancelEditDialog = true
         this.leaveFunc = next
       } else {
