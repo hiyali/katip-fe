@@ -5,16 +5,6 @@
         <img v-show="!mini" class="logo" src="~@/assets/images/logo.png" alt="electron-vue">
       
         <v-divider></v-divider>
-        <v-list-tile v-if="userInfo" @click="gotoPage({ name: 'record-list-page' })">
-          <v-list-tile-action>
-            <v-icon>list</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title>Record list</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-      
-        <v-divider></v-divider>
         <v-list-tile @click="setThemeDark(!themeDark)">
           <v-list-tile-action>
             <v-icon>{{ themeDark ? 'brightness_5' : 'brightness_3' }}</v-icon>
@@ -42,7 +32,7 @@
       <v-menu offset-y v-if="userInfo">
         <v-list-tile slot="activator">
           <v-list-tile-avatar>
-            <img src="https://randomuser.me/api/portraits/men/85.jpg" >
+            <img :src="userInfo.avatar_url || 'https://randomuser.me/api/portraits/men/85.jpg'">
           </v-list-tile-avatar>
           <v-list-tile-content>
             <v-list-tile-title>{{ userInfo.name }}</v-list-tile-title>
@@ -51,7 +41,34 @@
         </v-list-tile>
       
         <v-list>
-          <v-list-tile>{{ userInfo.email }}</v-list-tile>
+          <v-list-tile @click="gotoPage({ name: 'record-list-page' })">
+            <v-list-tile-action>
+              <v-icon color="primary">view_list</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content>
+              <v-list-tile-title>Record list</v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+  
+          <v-divider></v-divider>
+          <v-list-tile @click="gotoPage({ name: 'user-edit-page' })">
+            <v-list-tile-action>
+              <v-icon>person</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content>
+              <v-list-tile-title>Edit info</v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+          
+          <v-list-tile @click="gotoPage({ name: 'user-change-password-page' })">
+            <v-list-tile-action>
+              <v-icon>lock</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content>
+              <v-list-tile-title>Change password</v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+          
           <v-divider></v-divider>
           <v-list-tile @click.stop="logoutDialog = !logoutDialog">
             <v-list-tile-action>

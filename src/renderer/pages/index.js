@@ -1,8 +1,10 @@
 import RootLayout from './layout/Root'
 import UserLayout from './layout/User'
 
-import RecordListPage from './Record/List'
-import RecordEditPage from './Record/Edit'
+import RecordListPage from './record/List'
+import RecordEditPage from './record/Edit'
+import UserChangePasswordPage from './user/ChangePassword'
+import UserEditPage from './user/Edit'
 
 import RegisterPage from './common/Register'
 import LoginPage from './common/Login'
@@ -15,6 +17,8 @@ export {
 
   RecordListPage,
   RecordEditPage,
+  UserChangePasswordPage,
+  UserEditPage,
 
   RegisterPage,
   LoginPage,

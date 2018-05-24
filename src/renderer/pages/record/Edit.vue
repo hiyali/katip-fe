@@ -12,7 +12,7 @@
     <v-layout row>
       <v-flex xs7>
         <v-text-field v-if="typeObj && typeObj.type !== 'PASSWORD'" v-model="content" name="content" label="Content" multi-line rows="1" auto-grow prepend-icon="subject"></v-text-field>
-        <v-text-field v-if="typeObj && typeObj.type === 'PASSWORD'" v-model="content" name="content-password" min="8" value="" :prepend-icon="typeObj.icon"
+        <v-text-field v-if="typeObj && typeObj.type === 'PASSWORD'" v-model="content" name="content-password" min="6" value="" :prepend-icon="typeObj.icon"
           :append-icon="visible ? 'visibility_off' : 'visibility'" :append-icon-cb="() => (visible = !visible)" :type="visible ? 'text' : 'password'">
         </v-text-field>
       </v-flex>
@@ -66,7 +66,7 @@
         rules: {
           required: (value) => !!value || 'Required.',
           webImage: (value) => {
-            return !value || Validation.webImage(value) || 'Invalid file url.'
+            return !value || Validation.webImage(value) || 'Invalid web image url.'
           }
         },
         title: '',

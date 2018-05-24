@@ -41,17 +41,27 @@ export default new Router({
             {
               path: 'record-list',
               name: 'record-list-page',
-              component: require('@/pages/Record/List').default
+              component: require('@/pages/record/List').default
             },
             {
               path: 'record-add',
               name: 'record-add-page',
-              component: require('@/pages/Record/Edit').default
+              component: require('@/pages/record/Edit').default
             },
             {
               path: 'record-edit/:id',
               name: 'record-edit-page',
-              component: require('@/pages/Record/Edit').default
+              component: require('@/pages/record/Edit').default
+            },
+            {
+              path: 'change-password',
+              name: 'user-change-password-page',
+              component: require('@/pages/user/ChangePassword').default
+            },
+            {
+              path: 'edit',
+              name: 'user-edit-page',
+              component: require('@/pages/user/Edit').default
             }
           ]
         },
