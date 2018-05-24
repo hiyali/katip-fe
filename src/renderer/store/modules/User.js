@@ -31,7 +31,7 @@ const actions = {
       return res.data
     })
   },
-  register ({ commit }, body) {
+  register (_, body) {
     return Vue.http.post('/register', body).then((res) => {
       return res.data
     })
@@ -53,6 +53,16 @@ const actions = {
   getUserInfo ({ commit }, params) {
     return Vue.http.get('/user', params).then((res) => {
       commit('SET_USER_INFO', res.data)
+      return res
+    })
+  },
+  updateInfo ({ dispatch }, params) {
+    return Vue.http.put('/user', params).then((res) => {
+      return dispatch('getUserInfo')
+    })
+  },
+  changePassword (_, params) {
+    return Vue.http.put('/user/change-password', params).then((res) => {
       return res
     })
   }

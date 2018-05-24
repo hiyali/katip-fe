@@ -9,14 +9,14 @@
     </v-layout>
     <v-layout row>
       <v-flex sm6 offset-sm3>
-        <v-text-field v-model="newPassword" name="new-password" label="New password" min="6" value="" prepend-icon="lock" type="password"
+        <v-text-field v-model="new_password" name="new-password" label="New password" min="6" value="" prepend-icon="lock" type="password"
                       :rules="[rules.required, rules.atLeast6]">
         </v-text-field>
       </v-flex>
     </v-layout>
     <v-layout row>
       <v-flex sm6 offset-sm3>
-        <v-text-field v-model="newPasswordConfirm" name="new-password-confirm" label="New password confirmation" min="6" value="" prepend-icon="lock" type="password"
+        <v-text-field v-model="new_password_confirm" name="new-password-confirm" label="New password confirmation" min="6" value="" prepend-icon="lock" type="password"
                       :rules="[rules.required, rules.atLeast6]">
         </v-text-field>
       </v-flex>
@@ -42,8 +42,8 @@
     data () {
       return {
         password: '',
-        newPassword: '',
-        newPasswordConfirm: '',
+        new_password: '',
+        new_password_confirm: '',
 
         isLoading: false,
         snackbar: false,
@@ -57,14 +57,14 @@
     },
     computed: {
       inputFinished () {
-        return this.password.length >= 6 && this.newPassword.length >= 6 && this.newPasswordConfirm.length >= 6
+        return this.password.length >= 6 && this.new_password.length >= 6 && this.new_password_confirm.length >= 6
       }
     },
     methods: {
       save () {
-        const { password, newPassword, newPasswordConfirm } = this
+        const { password, new_password, new_password_confirm } = this
 
-        if (newPassword !== newPasswordConfirm) {
+        if (new_password !== new_password_confirm) {
           this.snackbar = true
           return
         }
@@ -72,9 +72,11 @@
         this.isLoading = true
         this.changePassword({
           password,
-          newPassword
-        }).then(_ => {
-          this.gotoPage({ name: 'record-list-page' })
+          new_password
+        }).then((res) => {
+          this.logout().then(_ => {
+            this.gotoPage({ name: 'login-page' })
+          })
         }).catch(_ => {
           this.isLoading = false
         })
@@ -83,6 +85,7 @@
         this.$router.replace(routeObj)
       },
       ...mapActions('User', [
+        'logout',
         'changePassword'
       ])
     }

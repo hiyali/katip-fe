@@ -119,7 +119,7 @@
       </v-card>
       
       <v-layout justify-center>
-        2018 &copy; <strong>hiyali.org</strong>
+        2018 &copy; <strong> hiyali.org </strong>
       </v-layout>
     </v-footer>
   </v-app>

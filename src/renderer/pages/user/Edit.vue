@@ -12,7 +12,7 @@
     </v-layout>
     <v-layout row>
       <v-flex sm6 offset-sm3>
-        <v-text-field v-model="avatarUrl" name="avatar-url" label="Avatar url" prepend-icon="link" type="text" :rules="[rules.webImage]"></v-text-field>
+        <v-text-field v-model="avatar_url" name="avatar-url" label="Avatar url" prepend-icon="link" type="text" :rules="[rules.webImage]"></v-text-field>
       </v-flex>
     </v-layout>
     
@@ -37,7 +37,7 @@
     data () {
       return {
         name: '',
-        avatarUrl: '',
+        avatar_url: '',
 
         isLoading: false,
         snackbar: false,
@@ -58,13 +58,13 @@
     },
     mounted () {
       this.name = this.userInfo.name
-      this.avatarUrl = this.userInfo.avatar_url
+      this.avatar_url = this.userInfo.avatar_url
     },
     methods: {
       save () {
-        const { name, avatarUrl } = this
+        const { name, avatar_url } = this
 
-        if (name.trim().length < 2 || !Validation.webImage(avatarUrl)) {
+        if (name.trim().length < 2 || (avatar_url && !Validation.webImage(avatar_url))) {
           this.snackbar = true
           return
         }
@@ -72,7 +72,7 @@
         this.isLoading = true
         this.updateInfo({
           name,
-          avatarUrl
+          avatar_url
         }).then(_ => {
           this.gotoPage({ name: 'record-list-page' })
         }).catch(_ => {
