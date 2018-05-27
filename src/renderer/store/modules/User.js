@@ -48,6 +48,7 @@ const actions = {
   async logout ({ commit }) {
     await commit('CLEAR_TOKEN')
     await commit('SET_USER_INFO')
+    await commit('Record/CLEAR_RECORD_LIST', null, { root: true })
     return Promise.resolve()
   },
   getUserInfo ({ commit }, params) {

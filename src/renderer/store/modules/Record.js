@@ -87,6 +87,10 @@ const mutations = {
   UPDTE_RECORD_ITEM (state, data) {
     const itemIndex = state.record.list.findIndex(item => item.id === data.id)
     state.record.list.splice(itemIndex, 1, data)
+  },
+  CLEAR_RECORD_LIST (state) {
+    state.record.list = undefined
+    state.record.skip = 0
   }
 }
 
