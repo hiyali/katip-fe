@@ -38,7 +38,7 @@
   import { mapActions } from 'vuex'
 
   export default {
-    name: 'user-change-password-page',
+    name: 'change-password-page',
     data () {
       return {
         password: '',

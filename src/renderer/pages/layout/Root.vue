@@ -51,7 +51,7 @@
           </v-list-tile>
   
           <v-divider></v-divider>
-          <v-list-tile @click="gotoPage({ name: 'user-edit-page' })">
+          <v-list-tile @click="gotoPage({ name: 'edit-info-page' })">
             <v-list-tile-action>
               <v-icon>person</v-icon>
             </v-list-tile-action>
@@ -60,7 +60,7 @@
             </v-list-tile-content>
           </v-list-tile>
           
-          <v-list-tile @click="gotoPage({ name: 'user-change-password-page' })">
+          <v-list-tile @click="gotoPage({ name: 'change-password-page' })">
             <v-list-tile-action>
               <v-icon>lock</v-icon>
             </v-list-tile-action>

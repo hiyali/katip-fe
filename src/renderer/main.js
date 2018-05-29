@@ -4,14 +4,16 @@ import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
 import 'material-design-icons-iconfont/dist/fonts/material-icons.css'
 
-import App from './App'
+import App from '@/App'
 import '@/assets/style/main.css'
-import router from './router'
-import store from './store'
-import configurations from './api'
+import router from '@/router'
+import store from '@/store'
+import configurations from '@/api'
+import { CommonLayout } from '@/components'
 
 if (!process.env.IS_WEB) Vue.use(require('vue-electron'))
 Vue.use(Vuetify)
+Vue.component('common-layout', CommonLayout)
 Vue.http = Vue.prototype.$http = axios
 configurations(router, store)
 Vue.config.productionTip = false

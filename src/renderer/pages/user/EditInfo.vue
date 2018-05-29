@@ -33,7 +33,7 @@
   import { Validation } from '@/lib'
 
   export default {
-    name: 'user-edit-page',
+    name: 'edit-info-page',
     data () {
       return {
         name: '',

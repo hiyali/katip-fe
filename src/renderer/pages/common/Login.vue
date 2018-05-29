@@ -1,33 +1,26 @@
 <template>
-  <v-container fluid fill-height>
-    <v-layout align-center justify-center>
-      <v-flex xs12 sm8 md4>
-        <v-card class="elevation-12">
-          <v-toolbar dark color="primary">
-            <v-toolbar-title>Login</v-toolbar-title>
-          </v-toolbar>
-          <v-card-text>
-            <v-form>
-              <v-text-field v-model="email" prepend-icon="email" name="email" label="Email" type="email" :rules="[rules.required, rules.email]" required></v-text-field>
-              <v-text-field v-model="password" prepend-icon="lock" name="password" label="Password" type="password" :rules="[rules.required, rules.password]" min="6" required
-                @keyup.enter="doLogin()">
-              </v-text-field>
-            </v-form>
-          </v-card-text>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="primary" @click="doLogin()" :disabled="isLoading">Login</v-btn>
-            <v-btn flat @click="gotoRegister()">Register</v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-flex>
-    </v-layout>
+  <common-layout>
+    <template slot="title">Login</template>
     
+    <v-form>
+      <v-text-field v-model="email" prepend-icon="email" name="email" label="Email" type="email" :rules="[rules.required, rules.email]" required></v-text-field>
+      <v-text-field v-model="password" prepend-icon="lock" name="password" label="Password" type="password" :rules="[rules.required, rules.password]" min="6" required
+                    @keyup.enter="doLogin()">
+      </v-text-field>
+    </v-form>
+
+    <v-btn slot="support-link" flat @click="gotoPage({ name: 'forget-password-page' })">Forget password?</v-btn>
+
+    <template slot="buttons">
+      <v-btn color="primary" @click="doLogin()" :disabled="isLoading">Login</v-btn>
+      <v-btn flat @click="gotoPage({ name: 'register-page' })">Register</v-btn>
+    </template>
+  
     <v-snackbar :timeout="5000" color="error" v-model="snackbar">
       Please input right informations.
       <v-btn dark flat @click.native="snackbar = false">Close</v-btn>
     </v-snackbar>
-  </v-container>
+  </common-layout>
 </template>
 
 <script>
@@ -69,8 +62,8 @@
           this.isLoading = false
         })
       },
-      gotoRegister () {
-        this.$router.replace({ name: 'register-page' })
+      gotoPage (routeObj) {
+        this.$router.push(routeObj)
       },
       ...mapActions('User', [
         'login'

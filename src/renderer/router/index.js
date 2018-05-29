@@ -28,6 +28,16 @@ export default new Router({
           component: require('@/pages/common/Register').default
         },
         {
+          path: 'forget-password',
+          name: 'forget-password-page',
+          component: require('@/pages/common/ForgetPassword').default
+        },
+        {
+          path: 'reset-password',
+          name: 'reset-password-page',
+          component: require('@/pages/common/ResetPassword').default
+        },
+        {
           path: 'user',
           component: require('@/pages/layout/User').default,
           beforeEnter: (to, from, next) => {
@@ -55,20 +65,20 @@ export default new Router({
             },
             {
               path: 'change-password',
-              name: 'user-change-password-page',
+              name: 'change-password-page',
               component: require('@/pages/user/ChangePassword').default
             },
             {
-              path: 'edit',
-              name: 'user-edit-page',
-              component: require('@/pages/user/Edit').default
+              path: 'edit-info',
+              name: 'edit-info-page',
+              component: require('@/pages/user/EditInfo').default
             }
           ]
         },
         {
           path: 'about',
           name: 'about-page',
-          component: require('@/pages/common/About').default
+          component: require('@/pages/other/About').default
         }
       ]
     },

@@ -3,13 +3,16 @@ import UserLayout from './layout/User'
 
 import RecordListPage from './record/List'
 import RecordEditPage from './record/Edit'
-import UserChangePasswordPage from './user/ChangePassword'
-import UserEditPage from './user/Edit'
+import ChangePasswordPage from './user/ChangePassword'
+import EditInfoPage from './user/EditInfo'
 
 import RegisterPage from './common/Register'
 import LoginPage from './common/Login'
-import SplashPage from './common/Splash'
-import AboutPage from './common/About'
+import ForgetPasswordPage from './common/ForgetPassword'
+import ResetPasswordPage from './common/ResetPassword'
+
+import SplashPage from './other/Splash'
+import AboutPage from './other/About'
 
 export {
   RootLayout,
@@ -17,11 +20,14 @@ export {
 
   RecordListPage,
   RecordEditPage,
-  UserChangePasswordPage,
-  UserEditPage,
+  ChangePasswordPage,
+  EditInfoPage,
 
   RegisterPage,
   LoginPage,
+  ForgetPasswordPage,
+  ResetPasswordPage,
+
   SplashPage,
   AboutPage
 }

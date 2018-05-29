@@ -1,5 +1,7 @@
 import SystemInformation from './SystemInformation'
+import CommonLayout from './CommonLayout'
 
 export {
-  SystemInformation
+  SystemInformation,
+  CommonLayout
 }
