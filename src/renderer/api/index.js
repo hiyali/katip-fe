@@ -3,13 +3,17 @@ import Store from '@/store'
 
 const showError = (res) => {
   const { data } = res
-  if (typeof data.message === 'string' && data.message.length > 0) {
-    Store.commit('App/SET_ERROR_MESSAGE', data.message)
+  let message = data.message
+  if (typeof message === 'object') {
+    message = message.Msg
+  }
+  if (typeof message === 'string' && message.length > 0) {
+    Store.commit('App/SET_ERROR_MESSAGE', message)
   }
 }
 
 export default function (router, store) {
-  Vue.http.defaults.timeout = 15 * 1000
+  Vue.http.defaults.timeout = 30 * 1000
   Vue.http.defaults.baseURL = 'https://katip.hiyali.org/api' // 'http://192.168.1.102:5555/'
   Vue.http.defaults.headers.post['Content-Type'] = 'application/json' // 'application/x-www-form-urlencoded'
 
@@ -38,9 +42,6 @@ export default function (router, store) {
         router.replace({ name: '404' })
         break
       case 500:
-        if (error.url.indexOf('NoHandleErr') > 0) {
-          break
-        }
         showError(res)
         break
       default:

@@ -51,7 +51,7 @@
         }
 
         this.isLoading = true
-        this.emailWithResetPassword({ email }).then(() => {
+        this.sendResetPasswordEmail({ email }).then(() => {
           this.snackbarText = 'An email with reset password was sent.'
           this.snackbarColor = 'info'
           this.snackbar = true
@@ -66,7 +66,7 @@
         this.$router.push(routeObj)
       },
       ...mapActions('User', [
-        'emailWithResetPassword'
+        'sendResetPasswordEmail'
       ])
     }
   }

@@ -66,6 +66,16 @@ const actions = {
     return Vue.http.put('/user/change-password', params).then((res) => {
       return res
     })
+  },
+  sendResetPasswordEmail (_, body) {
+    return Vue.http.post('/forget-password', body).then((res) => {
+      return res
+    })
+  },
+  resetPassword (_, body) {
+    return Vue.http.post('/reset-password', body).then((res) => {
+      return res
+    })
   }
 }
 

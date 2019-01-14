@@ -15,8 +15,8 @@
       <v-btn @click="$router.back()">Cancel</v-btn>
     </template>
   
-    <v-snackbar :timeout="5000" color="error" v-model="snackbar">
-      New password and confirmation are not match!
+    <v-snackbar :timeout="5000" :color="snackbarColor" v-model="snackbar">
+      {{ snackbarText }}
       <v-btn dark flat @click.native="snackbar = false">Close</v-btn>
     </v-snackbar>
   </common-layout>
@@ -29,12 +29,15 @@
     name: 'reset-password-page',
     data () {
       return {
+        token: '',
         email: '',
         new_password: '',
         new_password_confirm: '',
 
         isLoading: false,
         snackbar: false,
+        snackbarText: '',
+        snackbarColor: '',
         visible: false,
 
         rules: {
@@ -48,20 +51,32 @@
         return this.new_password.length >= 6 && this.new_password_confirm.length >= 6
       }
     },
+    mounted () {
+      this.email = this.$route.params.query.email // TODO
+      this.token = this.$route.params.query.token
+    },
     methods: {
       reset () {
-        const { new_password, new_password_confirm } = this
+        const { token, new_password, new_password_confirm } = this
 
         if (new_password !== new_password_confirm) {
+          this.snackbarText = 'New password and confirmation are not match!'
+          this.snackbarColor = 'error'
           this.snackbar = true
           return
         }
 
         this.isLoading = true
         this.resetPassword({
+          token,
           new_password
-        }).then((res) => {
-          this.gotoPage({ name: 'login-page' })
+        }).then((_) => {
+          this.snackbarText = 'Reset password success!'
+          this.snackbarColor = 'info'
+          this.snackbar = true
+          setTimeout(() => {
+            this.gotoPage({name: 'login-page'})
+          }, 5000)
         }).catch(_ => {
           this.isLoading = false
         })
