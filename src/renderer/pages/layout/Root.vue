@@ -3,7 +3,7 @@
     <v-navigation-drawer app :mini-variant.sync="mini" v-model="drawer">
       <v-list subheader dense>
         <img v-show="!mini" class="logo" src="~@/assets/images/logo.png" alt="electron-vue">
-      
+
         <v-divider></v-divider>
         <v-list-tile @click="setThemeDark(!themeDark)">
           <v-list-tile-action>
@@ -23,12 +23,12 @@
         </v-list-tile>
       </v-list>
     </v-navigation-drawer>
-  
+
     <v-toolbar app>
       <v-toolbar-side-icon @click="toggleNavigation()"></v-toolbar-side-icon>
       <v-toolbar-title>Katip</v-toolbar-title>
       <v-spacer></v-spacer>
-    
+
       <v-menu offset-y v-if="userInfo">
         <v-list-tile slot="activator">
           <v-list-tile-avatar>
@@ -39,7 +39,7 @@
           </v-list-tile-content>
           <v-icon>arrow_drop_down</v-icon>
         </v-list-tile>
-      
+
         <v-list>
           <v-list-tile @click="gotoPage({ name: 'record-list-page' })">
             <v-list-tile-action>
@@ -49,7 +49,7 @@
               <v-list-tile-title>Record list</v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
-  
+
           <v-divider></v-divider>
           <v-list-tile @click="gotoPage({ name: 'edit-info-page' })">
             <v-list-tile-action>
@@ -59,7 +59,7 @@
               <v-list-tile-title>Edit info</v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
-          
+
           <v-list-tile @click="gotoPage({ name: 'change-password-page' })">
             <v-list-tile-action>
               <v-icon>lock</v-icon>
@@ -68,7 +68,7 @@
               <v-list-tile-title>Change password</v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
-          
+
           <v-divider></v-divider>
           <v-list-tile @click.stop="logoutDialog = !logoutDialog">
             <v-list-tile-action>
@@ -85,7 +85,7 @@
     <v-content>
       <router-view></router-view>
     </v-content>
-  
+
     <v-dialog v-model="logoutDialog" max-width="360px">
       <v-card class="py-2">
         <v-card-title class="headline">
@@ -99,27 +99,27 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-  
+
     <v-snackbar :timeout="5000" color="error" :multi-line="false" v-model="errorSnackbar">
       {{ errorText }}
       <v-btn dark flat @click.native="errorSnackbar = false">Close</v-btn>
     </v-snackbar>
-  
+
     <v-footer app height="auto">
       <v-card flat tile class="text-xs-center" width="100%" v-show="false">
         <v-card-text>
           The KATIP is a tool which will provide a securable text storage service support for individuals
         </v-card-text>
-        
+
         <v-card-text>
           <v-btn icon class="mx-3" title="About" @click="gotoPage({ name: 'about-page' })">
             <v-icon size="24px">contacts</v-icon>
           </v-btn>
         </v-card-text>
       </v-card>
-      
+
       <v-layout justify-center>
-        2018 &copy; <strong> hiyali.org </strong>
+        2018 - 2020 &copy; <strong> hiyali.org </strong>
       </v-layout>
     </v-footer>
   </v-app>
